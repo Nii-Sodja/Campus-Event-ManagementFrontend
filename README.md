@@ -27,20 +27,6 @@ This is the frontend for the Campus Event Management System, built with React an
 
 To start the development server, run:
 
-
-⌘K to generate a command
-tweak a read me file for the backend
-
-To tweak the README file for the backend, you can include the following sections to provide a comprehensive overview of the project:
-Project Title and Description: Briefly describe what the backend does and its purpose.
-Installation Instructions: Provide steps to set up the backend locally.
-Usage: Explain how to start the server and any important commands.
-Environment Variables: List any environment variables that need to be set.
-Dependencies: Mention key dependencies and their purpose.
-API Endpoints: Provide a brief overview of the available API endpoints.
-Contributing: Guidelines for contributing to the project.
-License: State the license under which the project is distributed.
-Here's a sample structure for the README.md file:
 :
 bash
 npm start
