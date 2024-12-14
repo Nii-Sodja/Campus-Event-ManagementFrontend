@@ -22,7 +22,7 @@ const Dashboard = () => {
             date: '2024-12-20',
             time: '2:00 PM',
             location: 'Football Pitch',
-            type: 'Mens football match',
+            type: 'sports',
             backgroundImage: '/img8.JPG'
         },
         {
@@ -30,13 +30,12 @@ const Dashboard = () => {
             date: '2024-12-25',
             time: '3:30 PM',
             location: 'Student Center Auditorium',
-            type: 'Workshop',
+            type: 'technology',
             backgroundImage: '/img25.jpg'
         },
         {
-            id: 3,
-            name: 'Music Club Performance',
-            type: 'Cultural Event',
+            name: 'ARTS Club seminar',
+            type: 'cultural',
             date: '2024-12-15',
             time: '6:00 PM',
             location: 'Campus Amphitheater',
@@ -46,9 +45,11 @@ const Dashboard = () => {
 
     const eventTypes = [
         'all',
-        'Mens football match',
-        'Professional Development',
-        'Cultural Event'
+        'sports',
+        'academic',
+        'social',
+        'cultural',
+        'technology'
     ];
 
     const fetchEvents = useCallback(async () => {
@@ -56,10 +57,13 @@ const Dashboard = () => {
         setError(null);
         try {
             const response = await axios.get('http://localhost:3000/api/events/getEvents');
+            console.log('Fetched events:', response.data);
+            
             if (response.data.length > 0) {
                 setEvents(response.data);
                 setFilteredEvents(response.data);
             } else {
+                console.log('No events from API, using sample events');
                 setEvents(sampleEvents);
                 setFilteredEvents(sampleEvents);
             }
@@ -83,14 +87,17 @@ const Dashboard = () => {
 
             if (searchTerm) {
                 filtered = filtered.filter(event => 
-                    event.name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-                    event.type?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-                    event.location?.toLowerCase().includes(searchTerm?.toLowerCase())
+                    event.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    event.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    event.location?.toLowerCase().includes(searchTerm.toLowerCase())
                 );
             }
 
             if (selectedType !== 'all') {
-                filtered = filtered.filter(event => event.type === selectedType);
+                filtered = filtered.filter(event => {
+                    if (!event.type) return false;
+                    return event.type.toLowerCase() === selectedType.toLowerCase();
+                });
             }
 
             setFilteredEvents(filtered);
@@ -131,7 +138,9 @@ const Dashboard = () => {
                         >
                             {eventTypes.map(type => (
                                 <option key={type} value={type}>
-                                    {type}
+                                    {type === 'all' 
+                                        ? 'All Events' 
+                                        : type.charAt(0).toUpperCase() + type.slice(1)}
                                 </option>
                             ))}
                         </select>

@@ -149,44 +149,108 @@ const AdminDashboard = () => {
                                 required
                             />
                         </div>
-                        
-                        {/* ... Additional form fields ... */}
-                        {/* Include all your existing fields here */}
-                        
-                        {/* Venue Information */}
-                        <div className="col-span-2">
-                            <h3 className="text-lg font-medium mb-2">Venue Details</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Building</label>
-                                    <input
-                                        type="text"
-                                        name="venue.building"
-                                        value={eventData.venue.building}
-                                        onChange={handleChange}
-                                        className="w-full p-2 border rounded"
-                                    />
-                                </div>
-                                {/* ... Additional venue fields ... */}
-                            </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Date*</label>
+                            <input
+                                type="date"
+                                name="date"
+                                value={eventData.date}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
                         </div>
-
-                        {/* Organizer Information */}
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Time*</label>
+                            <input
+                                type="time"
+                                name="time"
+                                value={eventData.time}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Location*</label>
+                            <input
+                                type="text"
+                                name="location"
+                                value={eventData.location}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Type*</label>
+                            <input
+                                type="text"
+                                name="type"
+                                value={eventData.type}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Capacity*</label>
+                            <input
+                                type="number"
+                                name="capacity"
+                                value={eventData.capacity}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                min="1"
+                                required
+                            />
+                        </div>
                         <div className="col-span-2">
-                            <h3 className="text-lg font-medium mb-2">Organizer Details</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Name</label>
-                                    <input
-                                        type="text"
-                                        name="organizer.name"
-                                        value={eventData.organizer.name}
-                                        onChange={handleChange}
-                                        className="w-full p-2 border rounded"
-                                    />
-                                </div>
-                                {/* ... Additional organizer fields ... */}
+                            <label className="block text-sm font-medium mb-1">Description*</label>
+                            <textarea
+                                name="description"
+                                value={eventData.description}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                maxLength="1000"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {/* Venue Information */}
+                    <div className="col-span-2">
+                        <h3 className="text-lg font-medium mb-2">Venue Details</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Building</label>
+                                <input
+                                    type="text"
+                                    name="venue.building"
+                                    value={eventData.venue.building}
+                                    onChange={handleChange}
+                                    className="w-full p-2 border rounded"
+                                />
                             </div>
+                            {/* ... Additional venue fields ... */}
+                        </div>
+                    </div>
+
+                    {/* Organizer Information */}
+                    <div className="col-span-2">
+                        <h3 className="text-lg font-medium mb-2">Organizer Details</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Name</label>
+                                <input
+                                    type="text"
+                                    name="organizer.name"
+                                    value={eventData.organizer.name}
+                                    onChange={handleChange}
+                                    className="w-full p-2 border rounded"
+                                />
+                            </div>
+                            {/* ... Additional organizer fields ... */}
                         </div>
                     </div>
 

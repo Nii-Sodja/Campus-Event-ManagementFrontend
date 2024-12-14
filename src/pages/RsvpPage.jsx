@@ -30,31 +30,48 @@ const RsvpPage = () => {
 
   const handleRSVP = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Please login to RSVP');
-        navigate('/login');
-        return;
-      }
-
-      const response = await axios.post(
-        `http://localhost:3000/api/events/register/${event._id}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` }
+        const token = JSON.parse(localStorage.getItem('User'))?.token;
+        const userId = JSON.parse(localStorage.getItem('User'))?._id;
+        
+        console.log('RSVP attempt:', {
+            eventId: event._id,
+            userId: userId,
+            token: token ? 'Token exists' : 'No token'
+        });
+        
+        if (!token) {
+            alert('Please login to RSVP');
+            navigate('/login');
+            return;
         }
-      );
+        
+        const response = await axios.post(
+            `http://localhost:3000/api/events/register/${event._id}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        console.log('RSVP response:', response.data);
 
-      if (response.status === 200) {
-        setIsRsvped(true);
-        alert('Successfully RSVP\'d to event!');
-      }
+        if (response.status === 200) {
+            setIsRsvped(true);
+            alert('Successfully RSVP\'d to event!');
+        }
     } catch (error) {
-      if (error.response?.status === 400) {
-        alert(error.response.data.message);
-      } else {
-        alert('Error RSVP\'ing to event');
-      }
+        console.error('RSVP error details:', {
+            message: error.response?.data?.message,
+            details: error.response?.data?.details,
+            status: error.response?.status
+        });
+        
+        if (error.response?.status === 400) {
+            alert(error.response.data.message);
+        } else {
+            alert('Error RSVP\'ing to event');
+        }
     }
   };
 

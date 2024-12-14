@@ -2,14 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const EventCards = ({ event, onRsvpUpdate }) => {
     const navigate = useNavigate();
     const [isRsvped, setIsRsvped] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState(null);
 
     useEffect(() => {
         checkRsvpStatus();
     }, [event._id]);
+
+    useEffect(() => {
+        imageSetter();
+    }, [event]);
+
+    const imageSetter = () => {
+        if (event?.name?.toLowerCase().includes('tech')) {
+            setImage("img25.jpg");
+        } else if (event?.name?.toLowerCase().includes('sports')) {
+            setImage("img8.JPG");
+        } else if (event?.name?.toLowerCase().includes('football')) {
+            setImage("img8.JPG");
+        } else if (event?.name?.toLowerCase().includes('arts')) {
+            setImage("img6.JPG");
+        }
+    }
 
     const checkRsvpStatus = async () => {
         const user = JSON.parse(localStorage.getItem('User'));
@@ -20,46 +38,88 @@ const EventCards = ({ event, onRsvpUpdate }) => {
             const response = await axios.get(`http://localhost:3000/api/events/${event._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setIsRsvped(response.data.attendees?.includes(user._id));
+            
+            const isUserRegistered = response.data.attendees?.includes(user._id);
+            setIsRsvped(isUserRegistered);
+            
+            console.log('RSVP status check:', {
+                eventId: event._id,
+                isRegistered: isUserRegistered
+            });
         } catch (error) {
             console.error('Error checking RSVP status:', error);
         }
     };
 
     const handleRSVP = async () => {
-        const user = JSON.parse(localStorage.getItem('User'));
-        if (!user) {
-            navigate('/login');
-            return;
-        }
-
         try {
+            const user = JSON.parse(localStorage.getItem('User'));
+            if (!user || !user.token || !user._id) {
+                alert('Please login to RSVP');
+                navigate('/login');
+                return;
+            }
+
             setLoading(true);
-            const token = user.token;
-            
+
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+
             if (!isRsvped) {
-                await axios.post(
-                    `http://localhost:3000/api/events/register/${event._id}`,
-                    {},
-                    { headers: { Authorization: `Bearer ${token}` }}
-                );
-                setIsRsvped(true);
-                alert('Successfully RSVP\'d to event!');
+                try {
+                    const response = await axios.post(
+                        `http://localhost:3000/api/events/register/${event._id}`,
+                        {},
+                        config
+                    );
+                    
+                    console.log('RSVP success:', response.data);
+                    setIsRsvped(true);
+                    alert('Successfully RSVP\'d to event!');
+                    
+                    if (onRsvpUpdate) {
+                        onRsvpUpdate();
+                    }
+                } catch (error) {
+                    if (error.response?.data?.message === 'Already registered for this event') {
+                        setIsRsvped(true);
+                        alert('You are already registered for this event');
+                    } else {
+                        throw error;
+                    }
+                }
             } else {
                 await axios.post(
                     `http://localhost:3000/api/events/unregister/${event._id}`,
                     {},
-                    { headers: { Authorization: `Bearer ${token}` }}
+                    config
                 );
                 setIsRsvped(false);
                 alert('Successfully cancelled RSVP');
+                
+                if (onRsvpUpdate) {
+                    onRsvpUpdate();
+                }
             }
-
-            if (onRsvpUpdate) {
-                onRsvpUpdate();
-            }
-
         } catch (error) {
+            console.error('RSVP error:', {
+                status: error.response?.status,
+                message: error.response?.data?.message,
+                details: error.response?.data?.details,
+                fullError: error.message
+            });
+            
+            if (error.response?.status === 401) {
+                alert('Your session has expired. Please login again.');
+                localStorage.removeItem('User');
+                navigate('/login');
+                return;
+            }
+            
             alert(error.response?.data?.message || 'Error updating RSVP status');
         } finally {
             setLoading(false);
@@ -70,7 +130,7 @@ const EventCards = ({ event, onRsvpUpdate }) => {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-105">
             <div 
                 className="h-48 bg-cover bg-center"
-                style={{ backgroundImage: `url(${event.backgroundImage || '/img29.jpg'})` }}
+                style={{ backgroundImage: `url(${image})` }}
             />
             <div className="p-6">
                 <div className="mb-4">

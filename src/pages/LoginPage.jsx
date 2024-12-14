@@ -10,10 +10,38 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3000/api/users/login",{email,password}).then(response=>{
-        localStorage.setItem("User",JSON.stringify(response.data))
-        navigate('/')
-    }).catch(err=>console.log(err))
+    try {
+        const response = await axios.post('http://localhost:3000/api/users/login', {
+            email,
+            password
+        });
+
+        console.log('Login response:', response.data);
+
+        if (!response.data.token) {
+            setError('No token received from server');
+            return;
+        }
+
+        // Store user data
+        localStorage.setItem('User', JSON.stringify(response.data));
+
+        // Verify stored data
+        const storedUser = JSON.parse(localStorage.getItem('User'));
+        console.log('Stored user data:', {
+            hasToken: !!storedUser?.token,
+            tokenLength: storedUser?.token?.length,
+            userId: storedUser?._id,
+            fullUser: storedUser
+        });
+
+        // Navigate to home page on successful login
+        navigate('/');
+        
+    } catch (error) {
+        console.error('Login error:', error.response?.data || error);
+        setError(error.response?.data?.message || 'Error logging in');
+    }
   };
 
   return (
