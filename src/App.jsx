@@ -1,7 +1,7 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
-import LoginPage from './pages/loginpage'
+import LoginPage from './pages/LoginPage'
 import RsvpPage from './pages/RsvpPage'
 import SignupPage from './pages/SignUpPage'
 import PreferencesPage from './pages/PreferencesPage';
@@ -10,7 +10,7 @@ import MyEvents from './pages/MyEvents';
 const App = () => {
   return (
     <>
-    <BrowserRouter>
+    <Router>
     <Routes>
       <Route path='/' element={<Dashboard/>}></Route>
       <Route path='/login' element={<LoginPage/>}></Route>
@@ -20,7 +20,7 @@ const App = () => {
       <Route path="/admin" element={<AdminDashboard/>}></Route>
       <Route path="/my-events" element={<MyEvents/>}></Route>
     </Routes>
-    </BrowserRouter>
+    </Router>
     </>
   )
 }
