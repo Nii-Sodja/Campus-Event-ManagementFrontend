@@ -23,35 +23,7 @@ This is the frontend for the Campus Event Management System, built with React an
 3. **Install dependencies**:   ```bash
    npm install   ```
 
-## Usage
 
-To start the development server, run:
-
-:
-bash
-npm start
-:
-MONGO_URI=your_mongodb_uri
-PORT=3000
-.
-This structure provides a clear and concise overview of the backend project, making it easier for others to understand and contribute. Adjust the content as needed to fit your specific project details.
-type out the whole read me file for my project
-
-Here's a comprehensive README.md file for your backend project:
-:
-bash
-npm start
-:
-MONGO_URI=your_mongodb_uri
-PORT=5000
-JWT_SECRET=your_jwt_secret
-.
-This README provides a structured overview of your backend project, including installation instructions, usage, environment variables, dependencies, API endpoints, and contribution guidelines. Adjust the content as needed to fit your specific project details.
-give me me a comprehensive read me file for the frontend too
-
-Here's a comprehensive README.md file for your frontend project:
-:
-bash
 npm run dev
 
 The application will be available at `http://localhost:3000` by default.
