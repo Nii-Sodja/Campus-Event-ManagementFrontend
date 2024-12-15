@@ -26,7 +26,7 @@ This is the frontend for the Campus Event Management System, built with React an
 
 npm run dev
 
-The application will be available at `http://localhost:3000` by default.
+The application will be available at `[Campus Events](https://campus-event-management-frontend.vercel.app/)` by default.
 
 ## Scripts
 
