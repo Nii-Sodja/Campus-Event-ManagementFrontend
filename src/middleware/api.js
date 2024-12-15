@@ -3,7 +3,7 @@ import axios from 'axios';
 // Force production URL when deployed
 const BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3000'
-    : 'https://campus-event-management-backend.vercel.app';
+    : 'https://campus-event-managementbackend-2z5g.onrender.com';
 
 const api = axios.create({
     baseURL: BASE_URL,
