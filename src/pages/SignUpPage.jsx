@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from "axios"
+import api from "../middleware/api"
 import { useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
@@ -27,7 +27,7 @@ const SignupPage = () => {
         preferences: []
     }
 
-    await axios.post("http://localhost:3000/api/users/register",finalData).then(response=>{
+    await api.post("/api/users/register",finalData).then(response=>{
         localStorage.setItem("User",JSON.stringify(response.data))
         navigate('/')
     }).catch(err=>console.log(err))

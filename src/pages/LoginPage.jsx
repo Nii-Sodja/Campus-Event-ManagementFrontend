@@ -1,4 +1,4 @@
-import axiosInstance from '../config/axios';
+import api from '../middleware/api';
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom"
 
@@ -11,7 +11,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const response = await axiosInstance.post('/api/users/login', {
+        const response = await api.post('/api/users/login', {
             email,
             password
         });

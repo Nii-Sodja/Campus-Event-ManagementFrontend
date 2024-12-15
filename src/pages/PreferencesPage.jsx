@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../middleware/api';
 import NavBar from '../components/NavBar';
 
 const PreferencesPage = () => {
@@ -24,8 +24,8 @@ const PreferencesPage = () => {
             }
 
             try {
-                const response = await axios.get(
-                    'http://localhost:3000/api/users/preferences',
+                const response = await api.get(
+                    '/api/users/preferences',
                     {
                         headers: {
                             'Authorization': `Bearer ${user.token}`

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
-
+import api from '../middleware/api';
 const AdminDashboard = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState('');
     const [eventData, setEventData] = useState({
         name: '',
         date: '',
@@ -99,8 +99,8 @@ const AdminDashboard = () => {
                 capacity: parseInt(eventData.capacity)
             };
 
-            await axios.post(
-                'http://localhost:3000/api/events/createEvent', 
+            await api.post(
+                '/api/events/createEvent', 
                 formattedData,
                 { headers: { Authorization: `Bearer ${token}` }}
             );

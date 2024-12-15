@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import EventCards from '../components/EventCards';
 import EventCalendar from '../components/EventCalendar';
 import Banner from '../components/Banner';
-import axios from 'axios';
+import api from '../middleware/api';
 
 const Dashboard = () => {
     const [events, setEvents] = useState([]);
@@ -56,7 +56,7 @@ const Dashboard = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('http://localhost:3000/api/events/getEvents');
+            const response = await api.get('/api/events/getEvents');
             console.log('Fetched events:', response.data);
             
             if (response.data.length > 0) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../middleware/api';
 
 const RsvpPage = () => {
   const [event, setEvent] = useState({});
@@ -18,7 +18,7 @@ const RsvpPage = () => {
   const checkRsvpStatus = async (eventId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:3000/api/events/${eventId}`, {
+      const response = await api.get(`/api/events/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const userId = JSON.parse(localStorage.getItem('User'))._id;
@@ -45,8 +45,8 @@ const RsvpPage = () => {
             return;
         }
         
-        const response = await axios.post(
-            `http://localhost:3000/api/events/register/${event._id}`,
+        const response = await api.post(
+            `/api/events/register/${event._id}`,
             {},
             {
                 headers: {
@@ -78,8 +78,8 @@ const RsvpPage = () => {
   const handleCancelRSVP = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `http://localhost:3000/api/events/unregister/${event._id}`,
+      const response = await api.post(
+        `/api/events/unregister/${event._id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` }
