@@ -1,6 +1,6 @@
 import api from '../middleware/api';
 import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom"
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -16,8 +16,12 @@ const LoginPage = () => {
             password
         });
 
-        localStorage.setItem('User', JSON.stringify(response.data));
-        navigate('/');
+        if (response.data) {
+            localStorage.setItem('User', JSON.stringify(response.data));
+            navigate('/');
+        } else {
+            setError('Login failed: No user data received');
+        }
     } catch (error) {
         console.error('Login error:', error);
         setError(error.response?.data?.message || 'Login failed');
@@ -76,9 +80,9 @@ const LoginPage = () => {
         {/* Signup Link */}
         <div className="text-center mt-4 text-sm text-gray-500">
           Don't have an account?{' '}
-          <a href="/signup" className="text-indigo-600 hover:underline">
+          <Link to="/signup" className="text-indigo-600 hover:underline">
             Sign Up
-          </a>
+          </Link>
         </div>
       </div>
     </div>
