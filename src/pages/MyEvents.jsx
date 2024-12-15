@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../config/axios';
 import NavBar from '../components/NavBar';
 
 const MyEvents = () => {
@@ -18,16 +18,7 @@ const MyEvents = () => {
                 return;
             }
 
-            const response = await axios.get(
-                'http://localhost:3000/api/events/user/registered',
-                {
-                    headers: {
-                        'Authorization': `Bearer ${user.token}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
+            const response = await axiosInstance.get('/api/events/user/registered');
             setEvents(response.data);
             setLoading(false);
         } catch (error) {
